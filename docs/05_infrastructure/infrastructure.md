@@ -1,3 +1,7 @@
+インフラ
+・Docker
+・本番デプロイ：A
+
 ```mermaid
 flowchart TB
   user["ユーザー（スマホのブラウザ）"]
