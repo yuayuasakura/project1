@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-white text-gray-800">
-<div class="max-w-md mx-auto min-h-screen pb-20 px-4">
+<div style="max-width: 28rem; margin: 0 auto; min-height: 100vh; padding: 0 16px 80px;">
 
     {{-- ヘッダー：ロゴとログアウト --}}
     <header class="flex justify-between items-center py-4">
@@ -26,25 +26,62 @@
         <button type="submit" class="bg-indigo-500 text-white px-4 rounded-r">検索</button>
     </form>
 
-    {{-- グッズ一覧 --}}
-    <section class="mb-8">
-        <div class="flex justify-between items-center mb-2">
-            <h2 class="font-bold">グッズ一覧</h2>
-            <a href="{{ route('goods.index') }}" class="text-sm text-indigo-600">もっと見る</a>
-        </div>
+    {{-- メンバーから選ぶ --}}
+    <section style="margin-bottom: 32px;">
+        <h2 style="font-weight: bold; margin-bottom: 8px;">メンバーから選ぶ</h2>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
-            @foreach ($goods as $item)
-                <a href="{{ route('goods.show', $item) }}" class="text-center">
-                    @if ($item->image_path)
-                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
-                             class="w-full aspect-square object-cover rounded border">
+            @foreach ($members as $member)
+                <a href="{{ route('goods.index', ['member' => $member->id]) }}" style="text-align: center;">
+                    @if ($member->image_path)
+                        <img src="{{ asset('storage/' . $member->image_path) }}" alt="{{ $member->name }}"
+                            style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                     @else
-                        <div class="w-full aspect-square bg-gray-200 rounded border"></div>
+                        <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
                     @endif
-                    <p class="text-xs mt-1 line-clamp-2">{{ $item->name }}</p>
+                    <p style="font-size: 12px; margin-top: 4px;">{{ $member->name }}</p>
                 </a>
             @endforeach
         </div>
+    </section>
+
+    {{-- グッズの種類から選ぶ --}}
+    <section style="margin-bottom: 32px;">
+        <h2 style="font-weight: bold; margin-bottom: 8px;">グッズの種類から選ぶ</h2>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            @foreach ($categories as $category)
+                <a href="{{ route('goods.index', ['category' => $category->id]) }}" style="text-align: center;">
+                    @if ($category->image_path)
+                        <img src="{{ asset('storage/' . $category->image_path) }}" alt=""
+                             style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
+                    @else
+                        <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
+                    @endif
+                    <p style="font-size: 12px; margin-top: 4px;">{{ $category->name }}</p>
+                </a>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- 欲しい！に追加したもの --}}
+    <section style="margin-bottom: 32px;">
+        <h2 style="font-weight: bold; margin-bottom: 8px;">欲しい！に追加したもの</h2>
+        @if ($wishes->isEmpty())
+            <p style="font-size: 14px; color: #888;">グッズ詳細のハートを押すと、ここに表示されます</p>
+        @else
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                @foreach ($wishes as $wish)
+                    <a href="{{ route('goods.show', $wish->goods) }}" style="text-align: center;">
+                        @if ($wish->goods->image_path)
+                            <img src="{{ asset('storage/' . $wish->goods->image_path) }}" alt="{{ $wish->goods->name }}"
+                                 style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                        @else
+                            <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
+                        @endif
+                        <p style="font-size: 12px; margin-top: 4px;">{{ $wish->goods->name }}</p>
+                    </a>
+                @endforeach
+            </div>
+        @endif
     </section>
 
     {{-- 回収状況 --}}
@@ -69,16 +106,16 @@
             </div>
         @endif
     </section>
-</div>
-
-{{-- 下のメニュー --}}
-<nav class="fixed bottom-0 inset-x-0 bg-white border-t">
-    <div class="max-w-md mx-auto grid grid-cols-4 text-center text-sm">
-        <a href="{{ route('home') }}" class="py-3 font-bold">トップ</a>
-        <a href="{{ route('goods.index') }}" class="py-3">一覧</a>
-        <a href="{{ Route::has('collections.index') ? route('collections.index') : '#' }}" class="py-3">回収</a>
-        <a href="{{ route('profile.edit') }}" class="py-3">アカウント</a>
     </div>
-</nav>
+
+    {{-- 下のメニュー --}}
+    <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #ddd;">
+        <div style="max-width: 28rem; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-size: 14px;">
+            <a href="{{ route('home') }}" style="padding: 12px 0; font-weight: bold;">トップ</a>
+            <a href="{{ route('goods.index', ['collect_type' => 'one']) }}" style="padding: 12px 0;">各１</a>
+            <a href="{{ route('collections.index') }}" style="padding: 12px 0;">回収</a>
+            <a href="{{ route('profile.edit') }}" style="padding: 12px 0;">アカウント</a>
+        </div>
+    </nav>
 </body>
 </html>

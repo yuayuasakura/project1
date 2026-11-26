@@ -15,14 +15,15 @@ class MasterDataSeeder extends Seeder
     {
         // ① メンバー
         DB::table('members')->insert([
-            ['name' => 'ふうが', 'display_order' => 1],
-            ['name' => 'ゆう', 'display_order' => 2],
-            ['name' => 'かい', 'display_order' => 3],
+            ['name' => 'ふうが', 'display_order' => 1, 'image_path' => $this->copyImage('members/huga.jpg', 'members')],
+            ['name' => 'ゆう',   'display_order' => 2, 'image_path' => $this->copyImage('members/yu.jpg', 'members')],
+            ['name' => 'かい',   'display_order' => 3, 'image_path' => $this->copyImage('members/kai.jpg', 'members')],
         ]);
 
         // ② 種類
         DB::table('categories')->insert([
-            ['name' => '缶バッジ'],
+            ['name' => '缶バッジ',   'image_path' => $this->copyImage('categories/badge.jpg', 'categories')],
+            ['name' => 'アクスタ',   'image_path' => $this->copyImage('categories/akusuta.jpg', 'categories')],
         ]);
 
         // ③ シリーズ
@@ -39,10 +40,15 @@ class MasterDataSeeder extends Seeder
         // ④ グッズ
         $goods = [
             // [グッズ名, メンバー, 種類, シリーズ, 発売日, 画像ファイル名]
-            ['デビューグッズ ふうが', 'ふうが', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_a.jpg'],
-            ['デビューグッズ ゆう', 'ゆう', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_b.jpg'],
-            ['デビューグッズ かい', 'かい', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_c.jpg'],
-            ['デビューグッズ 集合', null, '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_all.jpg'],
+            ['デビューグッズ 缶バッジ ふうが', 'ふうが', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_a.jpg'],
+            ['デビューグッズ 缶バッジ ゆう', 'ゆう', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_b.jpg'],
+            ['デビューグッズ 缶バッジ かい', 'かい', '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_c.jpg'],
+            ['デビューグッズ 缶バッジ 集合', null, '缶バッジ', 'デビューグッズ', '2026-01-01', 'debut_all.jpg'],
+
+            ['デビューグッズ アクリルスタンド ふうが', 'ふうが', 'アクスタ', 'デビューグッズ', '2026-01-01', 'debut_s_a.jpg'],
+            ['デビューグッズ アクリルスタンド ゆう', 'ゆう', 'アクスタ', 'デビューグッズ', '2026-01-01', 'debut_s_b.jpg'],
+            ['デビューグッズ アクリルスタンド かい', 'かい', 'アクスタ', 'デビューグッズ', '2026-01-01', 'debut_s_c.jpg'],
+
             ['2026ツアー缶バッジ ふうが', 'ふうが', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_a.jpg'],
             ['2026ツアー缶バッジ ゆう', 'ゆう', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_b.jpg'],
             ['2026ツアー缶バッジ かい', 'かい', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_c.jpg'],
@@ -61,20 +67,21 @@ class MasterDataSeeder extends Seeder
         }
     }
      // database/seeders/images/ の写真を storage/app/public/goods/ にコピーして、保存先のパスを返す
-    private function copyImage(?string $fileName): ?string
+    private function copyImage(?string $fileName, string $folder = 'goods'): ?string
     {
-        if (!$fileName) {
+       if (!$fileName) {
             return null;
         }
 
         $from = database_path('seeders/images/' . $fileName);
 
         if (!file_exists($from)) {
-            return null;  // 写真がまだ用意できていなくてもエラーにしない
+            return null;
         }
 
-        Storage::disk('public')->put('goods/' . $fileName, file_get_contents($from));
+        $to = $folder . '/' . basename($fileName);
+        Storage::disk('public')->put($to, file_get_contents($from));
 
-        return 'goods/' . $fileName;
+        return $to;
     }
 }
