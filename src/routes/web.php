@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\GoodsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserGoodsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishController; 
 
 // Breeze はログイン後に dashboard へ移動するので、トップページへ転送する
 Route::redirect('/dashboard', '/')->name('dashboard');
@@ -22,9 +24,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/goods', [GoodsController::class, 'index'])->name('goods.index');
     Route::get('/goods/{goods}', [GoodsController::class, 'show'])->name('goods.show');
 
+    // 回収一覧（管理方法が「集める」のグッズだけ）
+    Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
+
     // 所持状況（Ajax）
     Route::patch('/goods/{goods}/quantity', [UserGoodsController::class, 'updateQuantity'])->name('user-goods.quantity');
     Route::patch('/goods/{goods}/collect-type', [UserGoodsController::class, 'updateCollectType'])->name('user-goods.collect-type');
+
+    // 欲しい！（Ajax）
+    Route::post('/goods/{goods}/wish', [WishController::class, 'toggle'])->name('wishes.toggle');
 });
 
 require __DIR__.'/auth.php';
