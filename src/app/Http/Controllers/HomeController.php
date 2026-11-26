@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Member;
+use App\Models\Series;
 use App\Models\UserGoods;
-use App\Models\Wish;
 
 class HomeController extends Controller
 {
@@ -17,12 +17,8 @@ class HomeController extends Controller
         // グッズの種類から選ぶ
         $categories = Category::orderBy('id')->get();
 
-        // 欲しい！に追加したもの（新しく追加した順に8個）
-        $wishes = Wish::with('goods')
-            ->where('user_id', auth()->id())
-            ->latest()
-            ->take(8)
-            ->get();
+        // シリーズから選ぶ
+        $series = Series::orderBy('id')->get();
 
         // 回収状況（変更なし）
         $collecting = UserGoods::with('goods')
@@ -30,6 +26,6 @@ class HomeController extends Controller
             ->where('collect_type', 'collect')
             ->get();
 
-        return view('home', compact('members', 'categories', 'wishes', 'collecting'));
+        return view('home', compact('members', 'categories', 'series', 'collecting'));
     }
 }

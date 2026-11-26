@@ -1,0 +1,14 @@
+services:
+  app:
+    image: yuasan/oshi:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    env_file:
+      - ./src/.env
+
+  nginx:
+    image: yuasan/oshi-web:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:80"
+    depends_on:
+      - app

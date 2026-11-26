@@ -20,10 +20,14 @@ class MasterDataSeeder extends Seeder
             ['name' => 'かい',   'display_order' => 3, 'image_path' => $this->copyImage('members/kai.jpg', 'members')],
         ]);
 
+        // 「メンバーから選ぶ」の「全員集合」の画像（集合柄は member_id が NULL なので、members テーブルには入れない）
+        $this->copyImage('members/all.jpg', 'members');
+
         // ② 種類
         DB::table('categories')->insert([
             ['name' => '缶バッジ',   'image_path' => $this->copyImage('categories/badge.jpg', 'categories')],
             ['name' => 'アクスタ',   'image_path' => $this->copyImage('categories/akusuta.jpg', 'categories')],
+            ['name' => 'アクキー',   'image_path' => $this->copyImage('categories/akukey.jpg', 'categories')],
         ]);
 
         // ③ シリーズ
@@ -49,10 +53,19 @@ class MasterDataSeeder extends Seeder
             ['デビューグッズ アクリルスタンド ゆう', 'ゆう', 'アクスタ', 'デビューグッズ', '2026-01-01', 'debut_s_b.jpg'],
             ['デビューグッズ アクリルスタンド かい', 'かい', 'アクスタ', 'デビューグッズ', '2026-01-01', 'debut_s_c.jpg'],
 
+            ['デビューグッズ アクリルキーホルダー ふうが', 'ふうが', 'アクキー', 'デビューグッズ', '2026-01-01', 'debut_k_a.jpg'],
+            ['デビューグッズ アクリルキーホルダー ゆう', 'ゆう', 'アクキー', 'デビューグッズ', '2026-01-01', 'debut_k_b.jpg'],
+            ['デビューグッズ アクリルキーホルダー かい', 'かい', 'アクキー', 'デビューグッズ', '2026-01-01', 'debut_k_c.jpg'],
+            ['デビューグッズ アクリルキーホルダー 集合', null, 'アクキー', 'デビューグッズ', '2026-01-01', 'debut_k_all.jpg'],
+
             ['2026ツアー缶バッジ ふうが', 'ふうが', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_a.jpg'],
             ['2026ツアー缶バッジ ゆう', 'ゆう', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_b.jpg'],
             ['2026ツアー缶バッジ かい', 'かい', '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_c.jpg'],
             ['2026ツアー缶バッジ 集合', null, '缶バッジ', '2026ツアーグッズ', '2026-04-01', 'sum26_all.jpg'],
+
+            ['2026ツアー アクリルスタンド ふうが', 'ふうが', 'アクスタ', '2026ツアーグッズ', '2026-04-01', 'sum26_s_a.jpg'],
+            ['2026ツアー アクリルスタンド ゆう', 'ゆう', 'アクスタ', '2026ツアーグッズ', '2026-04-01', 'sum26_s_b.jpg'],
+            ['2026ツアー アクリルスタンド かい', 'かい', 'アクスタ', '2026ツアーグッズ', '2026-04-01', 'sum26_s_c.jpg'],
         ];
 
         foreach ($goods as [$name, $member, $category, $seriesName, $releaseDate, $image]) {
