@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use App\Models\UserGoods;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserGoodsRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class UpdateUserGoodsRequest extends FormRequest
     {
         return [
             'quantity'     => ['required', 'integer', 'min:0'],
-            'collect_type' => ['required', 'in:one,collect'],
+            'collect_type' => ['required', Rule::in(array_keys(UserGoods::TYPE_LABELS))],
         ];
     }
 }

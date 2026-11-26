@@ -41,6 +41,13 @@
                     <p style="font-size: 12px; margin-top: 4px;">{{ $member->name }}</p>
                 </a>
             @endforeach
+
+            {{-- 全員集合（集合柄のグッズ） --}}
+            <a href="{{ route('goods.index', ['member' => \App\Models\Goods::MEMBER_GROUP]) }}" style="text-align: center;">
+                <img src="{{ asset('storage/' . \App\Models\Goods::MEMBER_GROUP_IMAGE) }}" alt="全員集合"
+                     style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                <p style="font-size: 12px; margin-top: 4px;">全員集合</p>
+            </a>
         </div>
     </section>
 
@@ -62,25 +69,25 @@
         </div>
     </section>
 
-    {{-- 欲しい！に追加したもの --}}
+    {{-- シリーズから選ぶ（文字だけ。1行に1つずつ。押すとそのシリーズのグッズ一覧へ） --}}
     <section style="margin-bottom: 32px;">
-        <h2 style="font-weight: bold; margin-bottom: 8px;">欲しい！に追加したもの</h2>
-        @if ($wishes->isEmpty())
-            <p style="font-size: 14px; color: #888;">グッズ詳細のハートを押すと、ここに表示されます</p>
+        <h2 style="font-weight: bold; margin-bottom: 8px;">シリーズから選ぶ</h2>
+        @if ($series->isEmpty())
+            <p style="font-size: 14px; color: #888;">シリーズはまだありません</p>
         @else
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
-                @foreach ($wishes as $wish)
-                    <a href="{{ route('goods.show', $wish->goods) }}" style="text-align: center;">
-                        @if ($wish->goods->image_path)
-                            <img src="{{ asset('storage/' . $wish->goods->image_path) }}" alt="{{ $wish->goods->name }}"
-                                 style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
-                        @else
-                            <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
-                        @endif
-                        <p style="font-size: 12px; margin-top: 4px;">{{ $wish->goods->name }}</p>
-                    </a>
+            <ul style="border-top: 1px solid #e5e7eb;">
+                @foreach ($series as $item)
+                    <li style="border-bottom: 1px solid #e5e7eb;">
+                        <a href="{{ route('goods.index', ['series' => $item->id]) }}"
+                           style="display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 12px 4px; font-size: 15px;">
+                            <span>{{ $item->name }}</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;">
+                                <path d="M9 6l6 6-6 6" stroke="#9ca3af" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </li>
                 @endforeach
-            </div>
+            </ul>
         @endif
     </section>
 
@@ -88,7 +95,7 @@
     <section class="mb-8">
         <h2 class="font-bold mb-2">回収状況</h2>
         @if ($collecting->isEmpty())
-            <p class="text-sm text-gray-500">「集める」に設定したグッズはまだありません</p>
+            <p class="text-sm text-gray-500">「回収」に設定したグッズはまだありません</p>
         @else
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
                 @foreach ($collecting as $mine)

@@ -34,7 +34,7 @@
     $menu = [
         'home'        => ['トップ', route('home')],
         'goods'       => ['各１', route('goods.index', ['collect_type' => 'one'])],   // 管理方法「1つでいい」だけ
-        'collections' => ['回収', route('collections.index')],                         // 管理方法「集める」だけ
+        'collections' => ['回収', route('collections.index')],                         // 管理方法「回収」だけ
         'account'     => ['アカウント', route('profile.edit')],
     ];
 @endphp

@@ -6,6 +6,7 @@ use App\Models\Goods;
 use App\Models\UserGoods;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 
 class UserGoodsController extends Controller
@@ -28,7 +29,7 @@ public function updateQuantity(Request $request, Goods $goods)
 public function updateCollectType(Request $request, Goods $goods)
 {
     $validated = $request->validate([
-        'collect_type' => ['required', 'in:one,collect'],
+        'collect_type' => ['required', Rule::in(array_keys(UserGoods::TYPE_LABELS))],
     ]);
 
     $userGoods = $this->findOrNew($goods);
@@ -43,7 +44,7 @@ private function findOrNew(Goods $goods): UserGoods
 {
     $userGoods = UserGoods::firstOrNew(
         ['user_id' => auth()->id(), 'goods_id' => $goods->id],
-        ['quantity' => 0, 'collect_type' => 'one']   // 新しく作るときの初期値
+        ['quantity' => 0, 'collect_type' => UserGoods::TYPE_NONE]   // 新しく作るときの初期値（未選択）
     );
 
     if ($userGoods->exists) {

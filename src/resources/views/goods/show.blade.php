@@ -1,4 +1,10 @@
-<x-mobile-layout :title="$goods->name" :active="($userGoods->collect_type ?? 'one') === 'collect' ? 'collections' : 'goods'">
+@php
+    // 管理方法（所持状況をまだ登録していなければ「未選択」）
+    $collectType = $userGoods->collect_type ?? \App\Models\UserGoods::TYPE_NONE;
+    // 下のメニューで太字にする項目：1つでいい → 各１／回収 → 回収／未選択 → なし
+    $active = ['one' => 'goods', 'collect' => 'collections'][$collectType] ?? '';
+@endphp
+<x-mobile-layout :title="$goods->name" :active="$active">
 
     {{-- 一覧に戻る --}}
     <a href="{{ url()->previous() === url()->current() ? route('goods.index') : url()->previous() }}"
@@ -41,8 +47,9 @@
         <label for="collect-type" style="display: block; font-weight: bold; margin-bottom: 8px;">管理方法</label>
         <select id="collect-type" data-url="{{ route('user-goods.collect-type', $goods) }}"
                 style="width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 8px 12px;">
-            <option value="one" @selected(($userGoods->collect_type ?? 'one') === 'one')>1つでいい</option>
-            <option value="collect" @selected(($userGoods->collect_type ?? 'one') === 'collect')>集める</option>
+            @foreach (\App\Models\UserGoods::TYPE_LABELS as $value => $label)
+                <option value="{{ $value }}" @selected($collectType === $value)>{{ $label }}</option>
+            @endforeach
         </select>
     </section>
 
@@ -110,7 +117,7 @@
         });
     });
 
-    // 「1つでいい／集める」の切り替え
+    // 管理方法（未選択／1つでいい／回収）の切り替え
     const select = document.getElementById('collect-type');
 
     select.addEventListener('change', async () => {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Wish;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        // 欲しい！に追加したもの（新しく追加した順に全部。トップページから移動した）
+        $wishes = Wish::with('goods')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user'   => $request->user(),
+            'wishes' => $wishes,
         ]);
     }
 

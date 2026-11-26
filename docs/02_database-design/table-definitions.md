@@ -37,5 +37,5 @@
 2/ユーザーID/user_id/int/user.idより
 3/グッズID/goods_id/int/goods.idより
 4/所持数/quantity/int/0以上
-5/管理方法/collect_type/char/一つだけor集める
+5/管理方法/collect_type/char/none（未選択・初期値）/ one（1つでいい）/ collect（回収）
 6/更新日時/updated_at/datetime/--
