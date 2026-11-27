@@ -4,12 +4,15 @@
     // 下のメニューで太字にする項目：1つでいい → 各１／回収 → 回収／未選択 → なし
     $active = ['one' => 'goods', 'collect' => 'collections'][$collectType] ?? '';
 @endphp
-<x-mobile-layout :title="$goods->name" :active="$active">
+<x-main-layout :title="$goods->name" :active="$active">
 
     {{-- 一覧に戻る --}}
     <a href="{{ url()->previous() === url()->current() ? route('goods.index') : url()->previous() }}"
        style="display: inline-block; font-size: 14px; color: #6366f1; margin-bottom: 12px;">← 戻る</a>
 
+    {{-- スマホでは縦に1列、パソコンでは「画像｜情報」の左右2列 --}}
+    <div class="detail-layout">
+    <div>
     {{-- グッズの画像（横幅いっぱいの正方形） --}}
     @if ($goods->image_path)
         <img src="{{ asset('storage/' . $goods->image_path) }}" alt="{{ $goods->name }}"
@@ -17,6 +20,9 @@
     @else
         <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 12px;"></div>
     @endif
+    </div>
+
+    <div>
 
     {{-- グッズ名 --}}
     <h1 style="font-size: 20px; font-weight: bold; margin: 16px 0 12px;">{{ $goods->name }}</h1>
@@ -54,17 +60,20 @@
     </section>
 
     <p id="error" style="color: #dc2626; font-size: 14px; margin-top: 12px;"></p>
+    </div>
+    </div>
 
-    {{-- 欲しい！ボタン（縦長の画面の右下、下のメニューの上に固定） --}}
+    {{-- 欲しい！ボタン（中身の右下に固定。スマホでは下のメニューの上） --}}
     <button type="button" id="wish-button"
             data-url="{{ route('wishes.toggle', $goods) }}"
             aria-label="{{ $wished ? '欲しい！から外す' : '欲しい！に追加' }}"
             aria-pressed="{{ $wished ? 'true' : 'false' }}"
-            style="position: fixed; right: max(16px, calc(50% - 14rem + 16px)); bottom: 72px; width: 60px; height: 60px;
+            class="app-fab"
+            style="width: 60px; height: 60px;
                    border-radius: 50%; border: none; background: #fff;
                    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
                    display: flex; align-items: center; justify-content: center;
-                   cursor: pointer; z-index: 50;">
+                   cursor: pointer;">
         <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
             <path id="wish-heart"
                   d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.2 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5c3.4 0 5.4 3.6 4.1 6.8C19.5 16.4 12 21 12 21z"
@@ -156,4 +165,4 @@
     });
 </script>
     </x-slot>
-</x-mobile-layout>
+</x-main-layout>

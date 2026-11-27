@@ -1,4 +1,4 @@
-<x-mobile-layout title="アカウント" active="account">
+<x-main-layout title="アカウント" active="account">
 
     @php
         // 保存したあと・入力エラーのときは、設定を開いたまま表示する
@@ -56,7 +56,7 @@
         @if ($wishes->isEmpty())
             <p style="font-size: 14px; color: #888;">グッズ詳細のハートを押すと、ここに表示されます</p>
         @else
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div class="app-grid">
                 @foreach ($wishes as $wish)
                     <a href="{{ route('goods.show', $wish->goods) }}" style="text-align: center;">
                         @if ($wish->goods->image_path)
@@ -72,4 +72,4 @@
         @endif
     </section>
 
-</x-mobile-layout>
+</x-main-layout>

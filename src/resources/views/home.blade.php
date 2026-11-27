@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>トップページ</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-white text-gray-800">
-<div style="max-width: 28rem; margin: 0 auto; min-height: 100vh; padding: 0 16px 80px;">
-
-    {{-- ヘッダー：ロゴとログアウト --}}
-    <header class="flex justify-between items-center py-4">
-        <a href="{{ route('home') }}" class="font-bold text-lg">ロゴ</a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="border px-3 py-1 rounded">ログアウト</button>
-        </form>
-    </header>
+<x-main-layout title="トップページ" active="home">
 
     {{-- 検索：グッズ一覧の画面に keyword を送る --}}
     <form method="GET" action="{{ route('goods.index') }}" class="flex mb-6">
@@ -29,7 +10,7 @@
     {{-- メンバーから選ぶ --}}
     <section style="margin-bottom: 32px;">
         <h2 style="font-weight: bold; margin-bottom: 8px;">メンバーから選ぶ</h2>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+        <div class="app-grid">
             @foreach ($members as $member)
                 <a href="{{ route('goods.index', ['member' => $member->id]) }}" style="text-align: center;">
                     @if ($member->image_path)
@@ -54,7 +35,7 @@
     {{-- グッズの種類から選ぶ --}}
     <section style="margin-bottom: 32px;">
         <h2 style="font-weight: bold; margin-bottom: 8px;">グッズの種類から選ぶ</h2>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+        <div class="app-grid">
             @foreach ($categories as $category)
                 <a href="{{ route('goods.index', ['category' => $category->id]) }}" style="text-align: center;">
                     @if ($category->image_path)
@@ -97,7 +78,7 @@
         @if ($collecting->isEmpty())
             <p class="text-sm text-gray-500">「回収」に設定したグッズはまだありません</p>
         @else
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div class="app-grid">
                 @foreach ($collecting as $mine)
                     <a href="{{ route('goods.show', $mine->goods) }}" class="text-center">
                         @if ($mine->goods->image_path)
@@ -113,16 +94,4 @@
             </div>
         @endif
     </section>
-    </div>
-
-    {{-- 下のメニュー --}}
-    <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #ddd;">
-        <div style="max-width: 28rem; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-size: 14px;">
-            <a href="{{ route('home') }}" style="padding: 12px 0; font-weight: bold;">トップ</a>
-            <a href="{{ route('goods.index', ['collect_type' => 'one']) }}" style="padding: 12px 0;">各１</a>
-            <a href="{{ route('collections.index') }}" style="padding: 12px 0;">回収</a>
-            <a href="{{ route('profile.edit') }}" style="padding: 12px 0;">アカウント</a>
-        </div>
-    </nav>
-</body>
-</html>
+</x-main-layout>

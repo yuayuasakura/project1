@@ -12,13 +12,14 @@
          data-candidates-url="{{ route('user-goods.bulk-one.candidates') }}"
          data-store-url="{{ route('user-goods.bulk-one.store') }}"
          data-undo-url="{{ route('user-goods.bulk-one.undo') }}"
+         class="bulk-one-sheet"
          style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 71; margin: 0 auto; max-width: 28rem; max-height: 85vh;
                 overflow-y: auto; overscroll-behavior: contain; padding: 8px 16px 24px; background: #fff;
                 border-radius: 16px 16px 0 0; box-shadow: 0 -2px 12px rgba(0,0,0,0.2);">
 
     {{-- つまみと、タイトル・閉じるボタン（スクロールしても上に残す） --}}
     <div style="position: sticky; top: -8px; background: #fff; padding-top: 8px; margin-bottom: 8px; z-index: 1;">
-        <div aria-hidden="true" style="width: 40px; height: 4px; background: #d1d5db; border-radius: 2px; margin: 0 auto 8px;"></div>
+        <div class="bulk-one-handle" aria-hidden="true" style="width: 40px; height: 4px; background: #d1d5db; border-radius: 2px; margin: 0 auto 8px;"></div>
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <h2 id="bulk-one-title" style="font-weight: bold; font-size: 18px;">まとめて各1に登録</h2>
             <button type="button" id="bulk-one-close" aria-label="閉じる"
@@ -68,16 +69,24 @@
     <ul id="bulk-one-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;"></ul>
 
     <button type="button" id="bulk-one-submit" disabled
-            style="width: 100%; min-height: 52px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; color: #fff; background: #6366f1;">
+            style="width: 100%; min-height: 52px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; color: #fff; background: #c7c9d9;">
         0件を各1に登録する
     </button>
     <p id="bulk-one-error" style="color: #dc2626; font-size: 14px; margin-top: 8px;"></p>
 </section>
 
-{{-- 登録したあとに画面の下に出すお知らせ（下のメニューの上） --}}
-<div id="bulk-one-toast" role="status" aria-live="polite" hidden
-     style="position: fixed; left: 0; right: 0; bottom: 64px; z-index: 60; padding: 0 16px;">
-    <div style="max-width: calc(28rem - 32px); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+{{-- パソコンでは、シートを画面の真ん中に出す（スマホでは画面の下から） --}}
+<style>
+    html[data-view="pc"] .bulk-one-sheet {
+        top: 50% !important; bottom: auto !important; transform: translateY(-50%);
+        max-width: 40rem !important; border-radius: 16px !important; padding-bottom: 16px !important;
+    }
+    html[data-view="pc"] .bulk-one-handle { display: none; }   /* 引っぱるつまみはスマホ用 */
+</style>
+
+{{-- 登録したあとに画面の下に出すお知らせ（スマホでは下のメニューの上） --}}
+<div id="bulk-one-toast" class="app-toast" role="status" aria-live="polite" hidden>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;
                 background: #1f2937; color: #fff; border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.25);">
         <span id="bulk-one-toast-text" style="font-size: 14px;"></span>
         <button type="button" id="bulk-one-undo"
