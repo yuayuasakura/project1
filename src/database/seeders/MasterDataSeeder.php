@@ -79,10 +79,10 @@ class MasterDataSeeder extends Seeder
             ]);
         }
     }
-     // database/seeders/images/ の写真を storage/app/public/goods/ にコピーして、保存先のパスを返す
+    // database/seeders/images/ の写真を storage/app/public/goods/ にコピーして、保存先のパスを返す
     private function copyImage(?string $fileName, string $folder = 'goods'): ?string
     {
-       if (!$fileName) {
+        if (!$fileName) {
             return null;
         }
 

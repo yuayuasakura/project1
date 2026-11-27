@@ -1,4 +1,4 @@
-<x-mobile-layout :title="$title" :active="$active">
+<x-main-layout :title="$title" :active="$active">
 
     {{-- 検索：いま見ている一覧（グッズ一覧／各１／回収）の中で探す。ほかの絞り込み条件も引き継ぐ --}}
     <form method="GET" action="{{ $action }}" class="flex mb-6">
@@ -67,7 +67,7 @@
         @if ($goods->isEmpty())
             <p style="font-size: 14px; color: #888;">該当するグッズがありません</p>
         @else
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div class="app-grid">
                 @foreach ($goods as $item)
                     @php $mine = $item->userGoods->first(); @endphp
                     <a href="{{ route('goods.show', $item) }}" style="text-align: center;">
@@ -97,4 +97,4 @@
     @if (! empty($bulkOne))
         @include('goods.partials.bulk-one', ['bulkOne' => $bulkOne])
     @endif
-</x-mobile-layout>
+</x-main-layout>
