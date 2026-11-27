@@ -3,7 +3,7 @@ services:
     image: yuasan/oshi:${IMAGE_TAG:-latest}
     restart: unless-stopped
     env_file:
-      - ./src/.env
+      - ./src/.env.production
 
   nginx:
     image: yuasan/oshi-web:${IMAGE_TAG:-latest}
