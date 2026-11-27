@@ -15,7 +15,7 @@
     <div>
     {{-- グッズの画像（横幅いっぱいの正方形） --}}
     @if ($goods->image_path)
-        <img src="{{ asset('storage/' . $goods->image_path) }}" alt="{{ $goods->name }}"
+        <img src="{{ Storage::url($goods->image_path) }}" alt="{{ $goods->name }}"
              style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; border: 1px solid #ddd;">
     @else
         <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 12px;"></div>

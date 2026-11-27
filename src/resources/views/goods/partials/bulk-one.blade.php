@@ -34,7 +34,7 @@
             <button type="button" class="bulk-one-choice" data-kind="member" data-id="{{ $member->id }}" aria-pressed="false"
                     style="text-align: center; background: none; border: none; padding: 0; cursor: pointer;">
                 @if ($member->image_path)
-                    <img src="{{ asset('storage/' . $member->image_path) }}" alt=""
+                    <img src="{{ Storage::url($member->image_path) }}" alt=""
                          class="bulk-one-icon"
                          style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 3px solid #ddd;">
                 @else
@@ -52,7 +52,7 @@
             <button type="button" class="bulk-one-choice" data-kind="category" data-id="{{ $category->id }}" aria-pressed="false"
                     style="text-align: center; background: none; border: none; padding: 0; cursor: pointer;">
                 @if ($category->image_path)
-                    <img src="{{ asset('storage/' . $category->image_path) }}" alt=""
+                    <img src="{{ Storage::url($category->image_path) }}" alt=""
                          class="bulk-one-icon"
                          style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 8px; background: #fff; border-radius: 8px; border: 3px solid #ddd;">
                 @else

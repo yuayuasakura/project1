@@ -73,7 +73,7 @@
                     <a href="{{ route('goods.show', $item) }}" style="text-align: center;">
                         <div style="position: relative;">
                             @if ($item->image_path)
-                                <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}"
+                                <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}"
                                      style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                             @else
                                 <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 // 各1ページの「まとめて各1に登録」
 //  candidates … メンバー × 種類のグッズを返す
@@ -40,7 +41,7 @@ class BulkOneController extends Controller
             'goods' => $goods->map(fn (Goods $item) => [
                 'id'           => $item->id,
                 'name'         => $item->name,
-                'image_url'    => $item->image_path ? asset('storage/' . $item->image_path) : null,
+                'image_url'    => $item->image_path ? Storage::url($item->image_path) : null,
                 // 所持状況がまだなければ「未選択」
                 'collect_type' => $item->userGoods->first()->collect_type ?? UserGoods::TYPE_NONE,
             ])->values(),
