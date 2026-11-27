@@ -14,7 +14,7 @@
             @foreach ($members as $member)
                 <a href="{{ route('goods.index', ['member' => $member->id]) }}" style="text-align: center;">
                     @if ($member->image_path)
-                        <img src="{{ asset('storage/' . $member->image_path) }}" alt="{{ $member->name }}"
+                        <img src="{{ Storage::url($member->image_path) }}" alt="{{ $member->name }}"
                             style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                     @else
                         <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
@@ -25,7 +25,7 @@
 
             {{-- 全員集合（集合柄のグッズ） --}}
             <a href="{{ route('goods.index', ['member' => \App\Models\Goods::MEMBER_GROUP]) }}" style="text-align: center;">
-                <img src="{{ asset('storage/' . \App\Models\Goods::MEMBER_GROUP_IMAGE) }}" alt="全員集合"
+                <img src="{{ Storage::url(\App\Models\Goods::MEMBER_GROUP_IMAGE) }}" alt="全員集合"
                      style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                 <p style="font-size: 12px; margin-top: 4px;">全員集合</p>
             </a>
@@ -39,7 +39,7 @@
             @foreach ($categories as $category)
                 <a href="{{ route('goods.index', ['category' => $category->id]) }}" style="text-align: center;">
                     @if ($category->image_path)
-                        <img src="{{ asset('storage/' . $category->image_path) }}" alt=""
+                        <img src="{{ Storage::url($category->image_path) }}" alt=""
                              style="width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 8px; border-radius: 8px; border: 1px solid #ddd;">
                     @else
                         <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
@@ -82,7 +82,7 @@
                 @foreach ($collecting as $mine)
                     <a href="{{ route('goods.show', $mine->goods) }}" class="text-center">
                         @if ($mine->goods->image_path)
-                            <img src="{{ asset('storage/' . $mine->goods->image_path) }}" alt="{{ $mine->goods->name }}"
+                            <img src="{{ Storage::url($mine->goods->image_path) }}" alt="{{ $mine->goods->name }}"
                                  class="w-full aspect-square object-cover rounded border">
                         @else
                             <div class="w-full aspect-square bg-gray-200 rounded border"></div>

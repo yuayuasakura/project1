@@ -60,7 +60,7 @@
                 @foreach ($wishes as $wish)
                     <a href="{{ route('goods.show', $wish->goods) }}" style="text-align: center;">
                         @if ($wish->goods->image_path)
-                            <img src="{{ asset('storage/' . $wish->goods->image_path) }}" alt="{{ $wish->goods->name }}"
+                            <img src="{{ Storage::url($wish->goods->image_path) }}" alt="{{ $wish->goods->name }}"
                                  style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                         @else
                             <div style="width: 100%; aspect-ratio: 1 / 1; background: #eee; border-radius: 8px;"></div>
