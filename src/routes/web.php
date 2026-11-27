@@ -3,11 +3,11 @@
 use App\Http\Controllers\BulkOneController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\GoodsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserGoodsController;
+use App\Http\Controllers\WishController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\WishController; 
 
 // Breeze はログイン後に dashboard へ移動するので、トップページへ転送する
 Route::redirect('/dashboard', '/')->name('dashboard');

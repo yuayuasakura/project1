@@ -21,6 +21,12 @@ class UserGoods extends Model
         self::TYPE_COLLECT => '回収',
     ];
 
-    public function user()  { return $this->belongsTo(User::class); }
-    public function goods() { return $this->belongsTo(Goods::class, 'goods_id'); }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function goods()
+    {
+        return $this->belongsTo(Goods::class, 'goods_id');
+    }
 }

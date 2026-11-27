@@ -15,11 +15,26 @@ class Goods extends Model
     // 「全員集合」のアイコン画像（storage/app/public の中。シーダーでコピーする）
     public const MEMBER_GROUP_IMAGE = 'members/all.jpg';
 
-    public function member()   { return $this->belongsTo(Member::class); }
-    public function category() { return $this->belongsTo(Category::class); }
-    public function series()   { return $this->belongsTo(Series::class); }
-    public function userGoods(){ return $this->hasMany(UserGoods::class, 'goods_id'); }
-    public function wishes() { return $this->hasMany(Wish::class, 'goods_id'); }
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function series()
+    {
+        return $this->belongsTo(Series::class);
+    }
+    public function userGoods()
+    {
+        return $this->hasMany(UserGoods::class, 'goods_id');
+    }
+    public function wishes()
+    {
+        return $this->hasMany(Wish::class, 'goods_id');
+    }
 
     /**
      * 管理方法で絞り込む（ログイン中のユーザーの設定で判断する）
