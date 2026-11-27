@@ -16,8 +16,7 @@ FROM node:20 AS node-builder
 WORKDIR /app
 COPY src/package*.json ./
 RUN npm ci
-COPY src/resources ./resources
-COPY tailwind.config.js postcss.config.js ./   
+COPY src/resources ./resources  
 # Vite・Tailwind・PostCSS の設定ファイル（Breeze が作るもの）もコピーする
 COPY src/vite.config.js src/tailwind.config.js src/postcss.config.js ./
 RUN npm run build
