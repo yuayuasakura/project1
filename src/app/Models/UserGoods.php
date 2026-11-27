@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserGoods extends Model
 {
@@ -21,11 +22,11 @@ class UserGoods extends Model
         self::TYPE_COLLECT => '回収',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function goods()
+    public function goods(): BelongsTo
     {
         return $this->belongsTo(Goods::class, 'goods_id');
     }

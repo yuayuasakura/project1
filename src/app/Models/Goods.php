@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Goods extends Model
 {
@@ -15,23 +17,23 @@ class Goods extends Model
     // 「全員集合」のアイコン画像（storage/app/public の中。シーダーでコピーする）
     public const MEMBER_GROUP_IMAGE = 'members/all.jpg';
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-    public function series()
+    public function series(): BelongsTo
     {
         return $this->belongsTo(Series::class);
     }
-    public function userGoods()
+    public function userGoods(): HasMany
     {
         return $this->hasMany(UserGoods::class, 'goods_id');
     }
-    public function wishes()
+    public function wishes(): HasMany
     {
         return $this->hasMany(Wish::class, 'goods_id');
     }
