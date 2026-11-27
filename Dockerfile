@@ -23,6 +23,11 @@ RUN npm run build
 
 # ステージ3: アプリ（Laravel + php-fpm）
 FROM php:8.2-fpm-alpine AS app
+RUN apk add --no-cache libpng libjpeg-turbo libwebp \
+    && apk add --no-cache --virtual .build-deps libpng-dev libjpeg-turbo-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-webp --with-jpeg \
+    && docker-php-ext-install gd \
+    && apk del .build-deps
 WORKDIR /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -68,6 +73,3 @@ COPY src/public /var/www/html/public
 COPY --from=node-builder /app/public/build /var/www/html/public/build
 COPY docker/nginx/prod.conf /etc/nginx/conf.d/default.conf
 
-RUN apt-get update && apt-get install -y libwebp-dev libjpeg-dev libpng-dev \
-    && docker-php-ext-configure gd --with-webp --with-jpeg \
-    && docker-php-ext-install gd
